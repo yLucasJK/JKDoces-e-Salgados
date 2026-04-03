@@ -14,7 +14,6 @@
             --brand-purple-dark: #4a1d4a; 
             --brand-purple-light: #9d5c9d; 
             --brand-cream: #fff9f5; 
-            --brand-gold: #d4af37; 
         }
 
         .hero-bg {
@@ -29,13 +28,6 @@
             transition: all 0.4s ease;
         }
 
-        .logo-img {
-            width: 60px;
-            height: 60px;
-            object-fit: contain;
-        }
-
-        /* Estilos do Carrinho */
         #cart-sidebar {
             transition: transform 0.3s ease-in-out;
             transform: translateX(100%);
@@ -62,7 +54,7 @@
     <nav class="bg-white shadow-sm border-b border-purple-100 sticky top-0 z-50">
         <div class="container mx-auto px-6 py-3 flex justify-between items-center">
             <div class="flex items-center space-x-4">
-                <img src="https://i.ibb.co/tpvtBwVb/Chat-GPT-Image-3-de-abr-de-2026-17-58-38.png" alt="[Logótipo JK Doces e Salgados]" class="logo-img">
+                <img src="https://i.ibb.co/tpvtBwVb/Chat-GPT-Image-3-de-abr-de-2026-17-58-38.png" alt="Logótipo JK" class="w-12 h-12 object-contain">
                 <div class="flex flex-col">
                     <span class="text-xl md:text-2xl font-bold text-[#4a1d4a] leading-tight">JK Doces</span>
                     <span class="text-xs uppercase tracking-widest text-[#9d5c9d] font-semibold italic">e Salgados</span>
@@ -76,40 +68,45 @@
                     <a href="#sobre" class="font-medium hover:text-purple-600 transition">Sobre</a>
                 </div>
                 
-                <!-- Botão do Carrinho -->
                 <button onclick="toggleCart()" class="relative p-2 text-[#4a1d4a] hover:bg-purple-50 rounded-full transition">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                     </svg>
                     <span id="cart-count" class="cart-badge">0</span>
                 </button>
-
-                <a href="https://wa.me/5562998292962" target="_blank" class="hidden md:block bg-[#4a1d4a] text-white px-7 py-2.5 rounded-full hover:opacity-90 transition shadow-md font-semibold text-sm">WhatsApp</a>
             </div>
         </div>
     </nav>
 
     <!-- Sidebar do Carrinho -->
-    <div id="cart-overlay" onclick="toggleCart()" class="fixed inset-0 bg-black/50 z-[60] hidden transition-opacity"></div>
+    <div id="cart-overlay" onclick="toggleCart()" class="fixed inset-0 bg-black/50 z-[60] hidden"></div>
     <div id="cart-sidebar" class="fixed top-0 right-0 h-full w-full max-w-sm bg-white shadow-2xl z-[70] flex flex-col">
         <div class="p-6 border-b flex justify-between items-center bg-[#4a1d4a] text-white">
             <h2 class="text-xl font-bold">Meu Pedido</h2>
-            <button onclick="toggleCart()" class="hover:rotate-90 transition-transform">
+            <button onclick="toggleCart()">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
             </button>
         </div>
-        
         <div id="cart-items" class="flex-1 overflow-y-auto p-6 space-y-4">
-            <!-- Itens do carrinho aparecem aqui -->
             <p id="empty-cart-msg" class="text-center text-gray-400 mt-10">O seu carrinho está vazio.</p>
         </div>
-
         <div class="p-6 border-t bg-gray-50">
-            <div class="flex justify-between items-center mb-6">
-                <span class="text-gray-600 font-medium">Total:</span>
-                <span id="cart-total" class="text-2xl font-bold text-[#4a1d4a]">R$ 0,00</span>
+            <div class="flex justify-between items-center mb-2">
+                <span class="text-gray-600 font-medium text-sm">Total:</span>
+                <span id="cart-total" class="text-xl font-bold text-[#4a1d4a]">R$ 0,00</span>
+            </div>
+            <!-- Nova exibição de divisão de pagamento no carrinho -->
+            <div class="bg-purple-100/50 p-3 rounded-lg mb-6 border border-purple-200">
+                <div class="flex justify-between items-center text-xs text-[#4a1d4a] mb-1">
+                    <span>Sinal (60%):</span>
+                    <span id="payment-deposit" class="font-bold">R$ 0,00</span>
+                </div>
+                <div class="flex justify-between items-center text-xs text-gray-500 italic">
+                    <span>Na entrega (40%):</span>
+                    <span id="payment-rest">R$ 0,00</span>
+                </div>
             </div>
             <button onclick="sendWhatsAppOrder()" class="w-full bg-[#25D366] text-white py-4 rounded-xl font-bold text-lg hover:bg-[#1eb956] transition shadow-lg flex justify-center items-center gap-2">
                 Finalizar no WhatsApp
@@ -118,79 +115,74 @@
     </div>
 
     <!-- Hero Section -->
-    <section id="inicio" class="hero-bg h-[70vh] flex items-center justify-center text-center text-white px-4">
+    <section id="inicio" class="hero-bg h-[60vh] flex items-center justify-center text-center text-white px-4">
         <div class="max-w-3xl">
-            <h1 class="text-5xl md:text-6xl mb-6 leading-tight">Sabor Artesanal com um toque de Amor</h1>
-            <p class="text-lg md:text-xl mb-10 font-light opacity-90">Dos biscoitos crocantes aos salgados mais recheados, cada detalhe é pensado para surpreender o seu paladar.</p>
-            <a href="#produtos" class="bg-white text-[#4a1d4a] hover:bg-gray-100 px-12 py-4 rounded-full text-lg font-bold transition shadow-xl inline-block">Explorar Cardápio</a>
+            <h1 class="text-5xl md:text-6xl mb-6 leading-tight">Sabor Artesanal com Amor</h1>
+            <p class="text-lg md:text-xl mb-10 font-light opacity-90">Dos biscoitos crocantes aos salgados mais recheados.</p>
+            <a href="#produtos" class="bg-white text-[#4a1d4a] hover:bg-gray-100 px-12 py-4 rounded-full text-lg font-bold transition shadow-xl inline-block">Ver Cardápio</a>
         </div>
     </section>
 
-    <!-- Categorias / Destaques -->
-    <section id="produtos" class="py-24 container mx-auto px-6">
+    <!-- Cardápio -->
+    <section id="produtos" class="py-20 container mx-auto px-6">
         <div class="text-center mb-16">
             <h2 class="text-4xl text-[#4a1d4a] italic">Nossas Delícias</h2>
-            <p class="text-gray-500 mt-2 font-light">Adicione os itens e peça no WhatsApp</p>
-            <div class="w-20 h-1 bg-[#4a1d4a] opacity-30 mx-auto mt-6"></div>
+            <p class="text-gray-500 mt-2">Escolha e peça pelo WhatsApp</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <!-- Produto 1 -->
             <div class="bg-white rounded-3xl overflow-hidden shadow-sm border border-purple-50 card-hover">
                 <div class="h-56 bg-gray-100 overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1499636136210-6f4ee915583e?auto=format&fit=crop&q=80&w=600" alt="[Biscoitos de Fubá]" class="w-full h-full object-cover">
+                    <img src="BISCOITO_DE_FUB.jpg" alt="Biscoito de Fubá JK" class="w-full h-full object-cover">
                 </div>
-                <div class="p-8">
-                    <h3 class="text-2xl mb-2 text-[#4a1d4a]">Biscoitos de Fubá</h3>
-                    <p class="text-gray-500 text-sm mb-6 leading-relaxed">Crocância inigualável com o sabor autêntico do milho.</p>
-                    <div class="flex justify-between items-center border-t border-gray-50 pt-4">
+                <div class="p-6">
+                    <h3 class="text-2xl mb-2 text-[#4a1d4a]">Biscoito de Fubá</h3>
+                    <p class="text-gray-500 text-sm mb-4">A receita tradicional, crocante e deliciosa.</p>
+                    <div class="flex justify-between items-center pt-4">
                         <span class="text-xl font-bold text-[#4a1d4a]">R$ 15,00</span>
-                        <button onclick="addToCart('Biscoitos de Fubá', 15.00)" class="bg-purple-50 text-[#9d5c9d] px-4 py-2 rounded-lg font-bold hover:bg-[#4a1d4a] hover:text-white transition">Adicionar</button>
+                        <button onclick="addToCart('Biscoito de Fubá', 15.00)" class="bg-purple-50 text-[#9d5c9d] px-4 py-2 rounded-lg font-bold hover:bg-[#4a1d4a] hover:text-white transition">Adicionar</button>
                     </div>
                 </div>
             </div>
 
-            <!-- Produto 2 -->
             <div class="bg-white rounded-3xl overflow-hidden shadow-sm border border-purple-50 card-hover">
                 <div class="h-56 bg-gray-100 overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1586040140378-b5634cb4c8fc?auto=format&fit=crop&q=80&w=600" alt="[Cookies de Chocolate]" class="w-full h-full object-cover">
+                    <img src="https://images.unsplash.com/photo-1576618148400-f54bed99fcfd?auto=format&fit=crop&q=80&w=600" alt="Bolo de Pote" class="w-full h-full object-cover">
                 </div>
-                <div class="p-8">
-                    <h3 class="text-2xl mb-2 text-[#4a1d4a]">Cookies Recheados</h3>
-                    <p class="text-gray-500 text-sm mb-6 leading-relaxed">Massa amanteigada com gotas de chocolate belga.</p>
-                    <div class="flex justify-between items-center border-t border-gray-50 pt-4">
-                        <span class="text-xl font-bold text-[#4a1d4a]">R$ 8,00</span>
-                        <button onclick="addToCart('Cookies Recheados', 8.00)" class="bg-purple-50 text-[#9d5c9d] px-4 py-2 rounded-lg font-bold hover:bg-[#4a1d4a] hover:text-white transition">Adicionar</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Produto 3 -->
-            <div class="bg-white rounded-3xl overflow-hidden shadow-sm border border-purple-50 card-hover">
-                <div class="h-56 bg-gray-100 overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1576618148400-f54bed99fcfd?auto=format&fit=crop&q=80&w=600" alt="[Bolos de Pote]" class="w-full h-full object-cover">
-                </div>
-                <div class="p-8">
+                <div class="p-6">
                     <h3 class="text-2xl mb-2 text-[#4a1d4a]">Bolos de Pote</h3>
-                    <p class="text-gray-500 text-sm mb-6 leading-relaxed">Camadas cremosas e massa fofinha. Diversos sabores.</p>
-                    <div class="flex justify-between items-center border-t border-gray-50 pt-4">
+                    <p class="text-gray-500 text-sm mb-4">Vários sabores, sempre bem recheados.</p>
+                    <div class="flex justify-between items-center pt-4">
                         <span class="text-xl font-bold text-[#4a1d4a]">R$ 12,00</span>
                         <button onclick="addToCart('Bolo de Pote', 12.00)" class="bg-purple-50 text-[#9d5c9d] px-4 py-2 rounded-lg font-bold hover:bg-[#4a1d4a] hover:text-white transition">Adicionar</button>
                     </div>
                 </div>
             </div>
 
-            <!-- Produto 4 -->
             <div class="bg-white rounded-3xl overflow-hidden shadow-sm border border-purple-50 card-hover">
                 <div class="h-56 bg-gray-100 overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&q=80&w=600" alt="[Salgados Sortidos]" class="w-full h-full object-cover">
+                    <img src="https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&q=80&w=600" alt="Salgados" class="w-full h-full object-cover">
                 </div>
-                <div class="p-8">
+                <div class="p-6">
                     <h3 class="text-2xl mb-2 text-[#4a1d4a]">Salgados Fritos</h3>
-                    <p class="text-gray-500 text-sm mb-6 leading-relaxed">Salgadinhos sequinhos e com muito recheio.</p>
-                    <div class="flex justify-between items-center border-t border-gray-50 pt-4">
+                    <p class="text-gray-500 text-sm mb-4">Salgadinhos de festa sempre fresquinhos.</p>
+                    <div class="flex justify-between items-center pt-4">
                         <span class="text-xl font-bold text-[#4a1d4a]">R$ 5,00</span>
                         <button onclick="addToCart('Salgado (unid)', 5.00)" class="bg-purple-50 text-[#9d5c9d] px-4 py-2 rounded-lg font-bold hover:bg-[#4a1d4a] hover:text-white transition">Adicionar</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-3xl overflow-hidden shadow-sm border border-purple-50 card-hover">
+                <div class="h-56 bg-gray-100 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1586040140378-b5634cb4c8fc?auto=format&fit=crop&q=80&w=600" alt="Cookies" class="w-full h-full object-cover">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-2xl mb-2 text-[#4a1d4a]">Cookies Recheados</h3>
+                    <p class="text-gray-500 text-sm mb-4">Chocolate que derrete na boca.</p>
+                    <div class="flex justify-between items-center pt-4">
+                        <span class="text-xl font-bold text-[#4a1d4a]">R$ 8,00</span>
+                        <button onclick="addToCart('Cookies Recheados', 8.00)" class="bg-purple-50 text-[#9d5c9d] px-4 py-2 rounded-lg font-bold hover:bg-[#4a1d4a] hover:text-white transition">Adicionar</button>
                     </div>
                 </div>
             </div>
@@ -198,88 +190,76 @@
     </section>
 
     <!-- Sobre Section -->
-    <section id="sobre" class="bg-white py-24">
-        <div class="container mx-auto px-6 flex flex-col md:flex-row items-center gap-16">
-            <div class="md:w-1/2 relative">
-                <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&q=80&w=800" alt="[Processo de Produção]" class="rounded-[2rem] shadow-2xl relative z-10">
-            </div>
-            <div class="md:w-1/2">
-                <h2 class="text-4xl text-[#4a1d4a] mb-8 leading-tight italic">Qualidade em cada detalhe</h2>
-                <p class="text-gray-600 text-lg mb-8 leading-relaxed font-light">
-                    Na <span class="font-bold text-[#4a1d4a]">JK Doces e Salgados</span>, cada pedido é preparado com o maior carinho. Agora ficou mais fácil escolher suas delícias favoritas através do nosso carrinho.
-                </p>
-                <div class="grid grid-cols-2 gap-6">
-                    <div class="flex items-start space-x-3">
-                        <div class="bg-purple-100 p-2 rounded-lg"><svg class="w-5 h-5 text-[#4a1d4a]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"></path></svg></div>
-                        <span class="text-sm font-semibold text-gray-700">Artesanal</span>
+    <section id="sobre" class="py-24 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row items-center gap-16">
+                <div class="md:w-1/2">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&q=80&w=800" alt="Cozinha Artesanal" class="rounded-[2.5rem] shadow-2xl relative z-10 border-8 border-white">
+                        <div class="absolute -bottom-6 -right-6 w-32 h-32 bg-purple-100 rounded-full z-0"></div>
                     </div>
-                    <div class="flex items-start space-x-3">
-                        <div class="bg-purple-100 p-2 rounded-lg"><svg class="w-5 h-5 text-[#4a1d4a]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"></path></svg></div>
-                        <span class="text-sm font-semibold text-gray-700">Fresco</span>
+                </div>
+                <div class="md:w-1/2">
+                    <span class="text-[#9d5c9d] font-bold tracking-widest uppercase text-sm">Desde 2020</span>
+                    <h2 class="text-4xl text-[#4a1d4a] mt-4 mb-8 leading-tight italic font-bold">Produzindo momentos doces em Goiânia</h2>
+                    <p class="text-gray-600 text-lg mb-6 leading-relaxed">
+                        Na <span class="text-[#4a1d4a] font-bold">JK Doces e Salgados</span>, acreditamos que a comida artesanal tem o poder de unir as pessoas. Nossa jornada começou com a paixão por receitas caseiras e hoje entregamos alegria em cada mordida.
+                    </p>
+                    <p class="text-gray-600 text-lg mb-8 leading-relaxed italic">
+                        "Qualidade não é apenas um ingrediente, é o nosso compromisso com você."
+                    </p>
+                    <div class="flex items-center space-x-6">
+                        <div class="text-center">
+                            <span class="block text-2xl font-bold text-[#4a1d4a]">100%</span>
+                            <span class="text-xs text-gray-500 uppercase font-semibold">Artesanal</span>
+                        </div>
+                        <div class="w-px h-10 bg-gray-200"></div>
+                        <div class="text-center">
+                            <span class="block text-2xl font-bold text-[#4a1d4a]">Goiânia</span>
+                            <span class="text-xs text-gray-500 uppercase font-semibold">Local</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Diretrizes e Políticas -->
-    <section class="py-20 bg-purple-50/50">
+    <!-- Informações / Diretrizes -->
+    <section class="py-16 bg-purple-50/50 border-t border-purple-50">
         <div class="container mx-auto px-6">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl text-[#4a1d4a] italic">Informações Importantes</h2>
-                <p class="text-gray-500 mt-2">Leia nossas diretrizes antes de pedir</p>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-                <div class="bg-white p-8 rounded-3xl shadow-sm border border-purple-100">
-                    <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center text-[#4a1d4a] mb-6">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                    </div>
-                    <h3 class="text-xl font-bold text-[#4a1d4a] mb-4">Prazos de Entrega</h3>
-                    <ul class="text-gray-600 space-y-2 text-sm">
-                        <li>• Pedidos comuns: Mínimo 24h de antecedência.</li>
-                        <li>• Encomendas grandes: Mínimo 3 dias úteis.</li>
-                        <li>• Horário de entregas: 09:00 às 18:00.</li>
-                    </ul>
+            <h2 class="text-3xl text-center text-[#4a1d4a] italic mb-12">Informações Importantes</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="p-6 bg-white border border-purple-100 rounded-2xl shadow-sm">
+                    <h4 class="font-bold text-[#4a1d4a] mb-3 uppercase text-sm tracking-widest">Entrega</h4>
+                    <p class="text-gray-600 text-sm">Realizamos entregas em Goiânia e região. Prazos variam de 24h a 72h conforme o pedido.</p>
                 </div>
-
-                <div class="bg-white p-8 rounded-3xl shadow-sm border border-purple-100">
-                    <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center text-[#4a1d4a] mb-6">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" /></svg>
-                    </div>
-                    <h3 class="text-xl font-bold text-[#4a1d4a] mb-4">Pagamento</h3>
-                    <ul class="text-gray-600 space-y-2 text-sm">
-                        <li>• Aceitamos PIX (Chave: Telefone).</li>
-                        <li>• Dinheiro (Apenas retirada ou entrega local).</li>
-                        <li>• Cartão de Crédito/Débito (+ taxas da máquina).</li>
-                    </ul>
+                <div class="p-6 bg-white border border-purple-100 rounded-2xl shadow-sm">
+                    <h4 class="font-bold text-[#4a1d4a] mb-3 uppercase text-sm tracking-widest">Pagamento</h4>
+                    <p class="text-gray-600 text-sm font-bold text-purple-700">60% de sinal no pedido + 40% na entrega/retirada.</p>
+                    <p class="text-gray-500 text-xs mt-2 italic">Aceitamos PIX, Cartões e Dinheiro.</p>
                 </div>
-
-                <div class="bg-white p-8 rounded-3xl shadow-sm border border-purple-100">
-                    <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center text-[#4a1d4a] mb-6">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-                    </div>
-                    <h3 class="text-xl font-bold text-[#4a1d4a] mb-4">Localização</h3>
-                    <ul class="text-gray-600 space-y-2 text-sm">
-                        <li>• Atendemos Goiânia e região metropolitana.</li>
-                        <li>• Taxa de entrega sob consulta por bairro.</li>
-                        <li>• Opção de retirada gratuita no local.</li>
-                    </ul>
+                <div class="p-6 bg-white border border-purple-100 rounded-2xl shadow-sm">
+                    <h4 class="font-bold text-[#4a1d4a] mb-3 uppercase text-sm tracking-widest">Encomendas</h4>
+                    <p class="text-gray-600 text-sm">Para festas e eventos, pedimos antecedência mínima de 3 dias úteis para garantir a produção.</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="bg-[#4a1d4a] text-white py-20">
-        <div class="container mx-auto px-6 text-center">
-            <div class="flex justify-center items-center mb-10">
-                <img src="https://i.ibb.co/tpvtBwVb/Chat-GPT-Image-3-de-abr-de-2026-17-58-38.png" alt="[Logo Rodapé]" class="h-16 w-16 bg-white p-1 rounded-full border-2 border-white/20">
+    <footer class="bg-[#4a1d4a] text-white pt-16 pb-8">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col items-center mb-10">
+                <img src="https://i.ibb.co/tpvtBwVb/Chat-GPT-Image-3-de-abr-de-2026-17-58-38.png" alt="JK Doces Logo" class="h-16 w-16 bg-white p-1 rounded-full mb-4">
+                <p class="text-purple-200">Goiânia - GO | (62) 99829-2962</p>
             </div>
-            <p class="mb-4 text-purple-200">Goiânia - GO | (62) 99829-2962</p>
-            <div class="flex justify-center gap-6">
-                <a href="https://wa.me/5562998292962" target="_blank" class="text-white hover:text-green-400 font-bold underline">WhatsApp</a>
-                <a href="https://www.instagram.com/andreia.fia/" target="_blank" class="text-white hover:text-purple-300 font-bold underline">Instagram</a>
+            
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-sm text-purple-300">© 2026 JK Doces e Salgados. Todos os direitos reservados.</p>
+                <div class="flex space-x-6 text-sm">
+                    <a href="https://wa.me/5562998292962" target="_blank" class="hover:text-green-400 transition font-bold">WhatsApp</a>
+                    <a href="https://www.instagram.com/andreia.fia/" target="_blank" class="hover:text-purple-300 transition font-bold">Instagram</a>
+                </div>
             </div>
         </div>
     </footer>
@@ -290,6 +270,8 @@
         const cartOverlay = document.getElementById('cart-overlay');
         const cartItemsContainer = document.getElementById('cart-items');
         const cartTotalDisplay = document.getElementById('cart-total');
+        const depositDisplay = document.getElementById('payment-deposit');
+        const restDisplay = document.getElementById('payment-rest');
         const cartCountDisplay = document.getElementById('cart-count');
         const emptyMsg = document.getElementById('empty-cart-msg');
 
@@ -336,52 +318,51 @@
                     totalItems += item.quantity;
 
                     const itemEl = document.createElement('div');
-                    itemEl.className = 'bg-gray-50 p-4 rounded-2xl flex justify-between items-center shadow-sm';
+                    itemEl.className = 'bg-gray-50 p-4 rounded-xl flex justify-between items-center border border-purple-50';
                     itemEl.innerHTML = `
-                        <div class="flex-1">
-                            <h4 class="font-bold text-[#4a1d4a]">${item.name}</h4>
-                            <p class="text-xs text-gray-500">R$ ${item.price.toFixed(2)}/unid</p>
+                        <div>
+                            <h4 class="font-bold text-[#4a1d4a] text-sm">${item.name}</h4>
+                            <p class="text-xs text-gray-500">R$ ${itemTotal.toFixed(2)}</p>
                         </div>
-                        <div class="flex items-center space-x-3">
-                            <div class="flex items-center bg-white border border-purple-100 rounded-lg px-2 py-1">
-                                <button onclick="updateQuantity('${item.name}', -1)" class="w-6 h-6 flex items-center justify-center text-red-500 font-bold">-</button>
-                                <span class="mx-2 font-semibold text-sm">${item.quantity}</span>
-                                <button onclick="updateQuantity('${item.name}', 1)" class="w-6 h-6 flex items-center justify-center text-green-500 font-bold">+</button>
-                            </div>
-                            <div class="text-right min-w-[70px]">
-                                <span class="text-sm font-bold text-[#4a1d4a]">R$ ${itemTotal.toFixed(2)}</span>
-                            </div>
+                        <div class="flex items-center space-x-2">
+                            <button onclick="updateQuantity('${item.name}', -1)" class="w-6 h-6 border rounded hover:bg-red-50">-</button>
+                            <span class="text-sm font-bold">${item.quantity}</span>
+                            <button onclick="updateQuantity('${item.name}', 1)" class="w-6 h-6 border rounded hover:bg-green-50">+</button>
                         </div>
                     `;
                     cartItemsContainer.appendChild(itemEl);
                 });
             }
 
+            const deposit = total * 0.6;
+            const rest = total * 0.4;
+
             cartTotalDisplay.innerText = `R$ ${total.toFixed(2)}`;
+            depositDisplay.innerText = `R$ ${deposit.toFixed(2)}`;
+            restDisplay.innerText = `R$ ${rest.toFixed(2)}`;
             cartCountDisplay.innerText = totalItems;
         }
 
         function sendWhatsAppOrder() {
-            if (cart.length === 0) {
-                alert("O seu carrinho está vazio!");
-                return;
-            }
-
-            let message = "*Novo Pedido - JK Doces e Salgados*\n\n";
+            if (cart.length === 0) return;
             let total = 0;
-
+            let message = "*Novo Pedido - JK Doces*\n\n";
             cart.forEach(item => {
-                message += `• ${item.quantity}x ${item.name} (R$ ${(item.price * item.quantity).toFixed(2)})\n`;
-                total += item.price * item.quantity;
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                message += `• ${item.quantity}x ${item.name} (R$ ${itemTotal.toFixed(2)})\n`;
             });
 
-            message += `\n*Total do Pedido: R$ ${total.toFixed(2)}*`;
-            message += `\n\n_Por favor, informe o seu endereço e forma de pagamento._`;
+            const deposit = total * 0.6;
+            const rest = total * 0.4;
 
-            const encodedMessage = encodeURIComponent(message);
-            window.open(`https://wa.me/5562998292962?text=${encodedMessage}`, '_blank');
+            message += `\n*Total: R$ ${total.toFixed(2)}*`;
+            message += `\n\n*Condições de Pagamento:*`;
+            message += `\n💰 *Sinal (60%): R$ ${deposit.toFixed(2)}*`;
+            message += `\n🛵 *Na Entrega (40%): R$ ${rest.toFixed(2)}*`;
+            
+            window.open(`https://wa.me/5562998292962?text=${encodeURIComponent(message)}`, '_blank');
         }
     </script>
-
 </body>
 </html>
