@@ -7,99 +7,44 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        /* Configurações de Fluidez */
-        html {
-            scroll-behavior: smooth;
-        }
-        
-        body { 
-            font-family: 'Poppins', sans-serif; 
-            overflow-x: hidden;
-        }
-
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Poppins', sans-serif; overflow-x: hidden; }
         h1, h2, h3 { font-family: 'Playfair Display', serif; }
 
-        /* Animação de Entrada (Aparecer Suave) */
         .reveal {
             opacity: 0;
             transform: translateY(30px);
             transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
         }
+        .reveal.active { opacity: 1; transform: translateY(0); }
 
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Hero Section com Parallax Suave */
         .hero-bg {
             background: linear-gradient(rgba(74, 29, 74, 0.7), rgba(74, 29, 74, 0.7)), url('https://i.ibb.co/Wp5mvtjS/Chat-GPT-Image-3-de-abr-de-2026-19-08-53.png');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
+            background-size: cover; background-position: center; background-attachment: fixed;
         }
 
-        /* Estilização dos Cards e Hover */
-        .card-product {
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+        .card-product { transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
         .card-product:hover {
             transform: translateY(-10px);
             box-shadow: 0 20px 40px rgba(74, 29, 74, 0.15);
         }
 
-        /* Overlay do Carrinho com Blur */
-        #cart-overlay {
-            backdrop-filter: blur(4px);
-            transition: opacity 0.4s ease;
-        }
-
-        /* Sidebar do Carrinho - Slide Suave */
         #cart-sidebar {
             transition: transform 0.5s cubic-bezier(0.77, 0, 0.175, 1);
             transform: translateX(100%);
         }
-        #cart-sidebar.open {
-            transform: translateX(0);
-        }
+        #cart-sidebar.open { transform: translateX(0); }
 
-        /* Animação de novos itens no carrinho */
-        @keyframes slideInRight {
-            from { opacity: 0; transform: translateX(20px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-        .item-added {
-            animation: slideInRight 0.4s ease forwards;
-        }
-
-        /* Partícula de Voo */
         .flying-item {
-            position: fixed;
-            width: 25px;
-            height: 25px;
-            background: #9d5c9d;
-            border-radius: 50%;
-            z-index: 1000;
-            pointer-events: none;
+            position: fixed; width: 25px; height: 25px; background: #9d5c9d;
+            border-radius: 50%; z-index: 1000; pointer-events: none;
             transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1);
         }
 
-        /* Navegação Hover Effect */
-        .nav-link {
-            position: relative;
-        }
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -4px;
-            left: 0;
+        .category-tab.active {
             background-color: #4a1d4a;
-            transition: width 0.3s ease;
-        }
-        .nav-link:hover::after {
-            width: 100%;
+            color: white;
+            box-shadow: 0 4px 15px rgba(74, 29, 74, 0.2);
         }
     </style>
 </head>
@@ -109,7 +54,7 @@
     <nav class="bg-white/90 backdrop-blur-md shadow-sm border-b border-purple-100 sticky top-0 z-50">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
             <div class="flex items-center space-x-3">
-                <img src="https://i.ibb.co/8gfpMn1j/Chat-GPT-Image-3-de-abr-de-2026-17-58-38.png" alt="JK Logo" class="w-10 h-10 rounded-full object-cover border border-purple-100">
+                <img src="https://i.ibb.co/8gfpMn1j/Chat-GPT-Image-3-de-abr-de-2026-17-58-38.png" alt="JK Logo" class="w-10 h-10 rounded-full object-cover">
                 <div class="hidden sm:block">
                     <span class="text-xl font-bold text-[#4a1d4a] block leading-none">JK Doces e Salgados</span>
                     <span class="text-[10px] uppercase tracking-[0.2em] text-[#9d5c9d] font-bold">Artesanais</span>
@@ -117,10 +62,10 @@
             </div>
             
             <div class="flex items-center space-x-10">
-                <div class="hidden md:flex space-x-8">
-                    <a href="#inicio" class="nav-link font-medium text-gray-600 hover:text-[#4a1d4a] transition">Início</a>
-                    <a href="#produtos" class="nav-link font-medium text-gray-600 hover:text-[#4a1d4a] transition">Produtos</a>
-                    <a href="#diretrizes" class="nav-link font-medium text-gray-600 hover:text-[#4a1d4a] transition">Diretrizes</a>
+                <div class="hidden md:flex space-x-8 text-sm uppercase tracking-widest font-semibold">
+                    <a href="#inicio" class="text-gray-600 hover:text-[#4a1d4a] transition">Início</a>
+                    <a href="#produtos" class="text-gray-600 hover:text-[#4a1d4a] transition">Cardápio</a>
+                    <a href="#diretrizes" class="text-gray-600 hover:text-[#4a1d4a] transition">Diretrizes</a>
                 </div>
                 
                 <button id="cart-btn" onclick="toggleCart()" class="relative p-2 text-[#4a1d4a] hover:bg-purple-50 rounded-full transition-all active:scale-90">
@@ -144,15 +89,8 @@
                 </svg>
             </button>
         </div>
-        <div id="cart-items" class="flex-1 overflow-y-auto p-8 space-y-6">
-            <div id="empty-cart-msg" class="text-center py-20">
-                <div class="text-gray-300 mb-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                    </svg>
-                </div>
-                <p class="text-gray-400">Ainda não escolheu nada delicioso?</p>
-            </div>
+        <div id="cart-items" class="flex-1 overflow-y-auto p-8 space-y-4">
+            <!-- Items via JS -->
         </div>
         <div class="p-8 bg-gray-50 border-t">
             <div class="flex justify-between items-end mb-6">
@@ -161,141 +99,49 @@
                     <p id="cart-total" class="text-3xl font-bold text-[#4a1d4a]">R$ 0,00</p>
                 </div>
                 <div class="text-right">
-                    <p class="text-xs text-purple-600 font-bold mb-1">Sinal (60%) após confirmar</p>
+                    <p class="text-xs text-purple-600 font-bold mb-1">Sinal (60%)</p>
                     <p id="payment-deposit" class="text-lg font-bold text-green-600">R$ 0,00</p>
                 </div>
             </div>
-            <button onclick="sendWhatsAppOrder()" class="w-full bg-[#25D366] text-white py-5 rounded-2xl font-bold text-lg hover:bg-[#1eb956] transition-all shadow-lg active:scale-95 flex items-center justify-center gap-3">
-                Confirmar Pedido via WhatsApp
+            <button onclick="sendWhatsAppOrder()" class="w-full bg-[#25D366] text-white py-5 rounded-2xl font-bold text-lg hover:bg-[#1eb956] transition-all flex items-center justify-center gap-3">
+                Pedir via WhatsApp
             </button>
-            <p class="text-[10px] text-gray-400 text-center mt-4 italic font-medium text-purple-900">* Pagamentos via Cartão possuem acréscimo da maquininha.</p>
         </div>
     </div>
 
     <!-- Hero -->
-    <header id="inicio" class="hero-bg h-[80vh] flex items-center">
-        <div class="container mx-auto px-6">
+    <header id="inicio" class="hero-bg h-[70vh] flex items-center">
+        <div class="container mx-auto px-6 text-center md:text-left">
             <div class="max-w-2xl text-white">
-                <span class="inline-block px-4 py-1 bg-white/20 backdrop-blur-md rounded-full text-sm font-bold tracking-widest uppercase mb-6 reveal">Feito com Amor em Goiânia</span>
-                <h1 class="text-6xl md:text-8xl mb-8 leading-tight reveal" style="transition-delay: 200ms;">Doces e Salgados que contam histórias</h1>
-                <p class="text-xl opacity-90 mb-10 font-light reveal" style="transition-delay: 400ms;">Receitas artesanais passadas de geração em geração, agora na palma da sua mão.</p>
-                <div class="reveal" style="transition-delay: 600ms;">
-                    <a href="#produtos" class="bg-white text-[#4a1d4a] px-10 py-5 rounded-full text-lg font-bold hover:bg-purple-50 transition shadow-xl inline-block hover:-translate-y-1">Explorar Cardápio</a>
-                </div>
+                <span class="inline-block px-4 py-1 bg-white/20 backdrop-blur-md rounded-full text-xs font-bold tracking-[0.3em] uppercase mb-6 reveal">Sabor de Goiânia</span>
+                <h1 class="text-5xl md:text-7xl mb-8 leading-tight reveal" style="transition-delay: 200ms;">Receitas que abraçam o coração</h1>
+                <p class="text-lg opacity-90 mb-10 font-light reveal" style="transition-delay: 400ms;">Doces finos, salgados crocantes e biscoitos artesanais feitos para encantar.</p>
+                <a href="#produtos" class="bg-white text-[#4a1d4a] px-10 py-5 rounded-full text-lg font-bold hover:bg-purple-50 transition shadow-xl inline-block reveal" style="transition-delay: 600ms;">Ver Cardápio</a>
             </div>
         </div>
     </header>
 
-    <!-- Cardápio -->
+    <!-- Seção de Produtos Organizável -->
     <main id="produtos" class="py-24 container mx-auto px-6">
-        <div class="text-center mb-20 reveal">
+        <div class="text-center mb-16 reveal">
             <h2 class="text-5xl text-[#4a1d4a] italic mb-4">Nossas Especialidades</h2>
-            <div class="w-24 h-1 bg-[#9d5c9d] mx-auto rounded-full"></div>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
-            <!-- Produto 1: Biscoito de Fubá -->
-            <div class="bg-white rounded-[2rem] overflow-hidden shadow-sm border border-purple-50 card-product reveal">
-                <div class="h-72 overflow-hidden">
-                    <img src="https://i.ibb.co/p6Rzfkz1/biscoitodefuba3.jpg" alt="Biscoito de Fubá" class="w-full h-full object-cover transition-transform duration-700 hover:scale-110">
-                </div>
-                <div class="p-8">
-                    <span class="text-xs font-bold text-[#9d5c9d] uppercase tracking-widest mb-2 block">Mais Pedido</span>
-                    <h3 class="text-3xl mb-4 text-[#4a1d4a]">Biscoito de Fubá</h3>
-                    <p class="text-gray-500 leading-relaxed mb-8">Textura amanteigada que derrete na boca. Perfeito para acompanhar um café quentinho.</p>
-                    <div class="flex justify-between items-center">
-                        <span class="text-2xl font-bold text-[#4a1d4a]">R$ 15,00</span>
-                        <button onclick="handleAddToCart(event, 'Biscoito de Fubá', 15.00)" class="bg-[#4a1d4a] text-white px-6 py-3 rounded-xl font-bold hover:bg-[#9d5c9d] transition shadow-md active:scale-95">Adicionar</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Produto 2 -->
-            <div class="bg-white rounded-[2rem] overflow-hidden shadow-sm border border-purple-50 card-product reveal" style="transition-delay: 150ms;">
-                <div class="h-72 overflow-hidden bg-gray-100 flex items-center justify-center">
-                    <img src="https://i.ibb.co/7mfRXPf/sabores-de-bolo-no-pote-mais-vendidos-1200x900.jpg" alt="Bolo de Pote" class="w-full h-full object-cover">
-                </div>
-                <div class="p-8">
-                    <span class="text-xs font-bold text-[#9d5c9d] uppercase tracking-widest mb-2 block">Sobremesa</span>
-                    <h3 class="text-3xl mb-4 text-[#4a1d4a]">Bolo de Pote</h3>
-                    <p class="text-gray-500 leading-relaxed mb-8">Camadas generosas de recheio cremoso e massa fofinha. Consulte os sabores do dia.</p>
-                    <div class="flex justify-between items-center">
-                        <span class="text-2xl font-bold text-[#4a1d4a]">R$ 12,00</span>
-                        <button onclick="handleAddToCart(event, 'Bolo de Pote', 12.00)" class="bg-[#4a1d4a] text-white px-6 py-3 rounded-xl font-bold hover:bg-[#9d5c9d] transition shadow-md">Adicionar</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Produto 3 -->
-            <div class="bg-white rounded-[2rem] overflow-hidden shadow-sm border border-purple-50 card-product reveal" style="transition-delay: 300ms;">
-                <div class="h-72 overflow-hidden bg-gray-100 flex items-center justify-center">
-                    <img src="https://i.ibb.co/fGpGK0Hx/Panfleteria-Joel-Salgados-torta-salgados-foto02-1.jpg" alt="Salgadinhos" class="w-full h-full object-cover">
-                </div>
-                <div class="p-8">
-                    <span class="text-xs font-bold text-[#9d5c9d] uppercase tracking-widest mb-2 block">Para Festa</span>
-                    <h3 class="text-3xl mb-4 text-[#4a1d4a]">Cento Salgados</h3>
-                    <p class="text-gray-500 leading-relaxed mb-8">Coxinhas, quibes e risoles crocantes e sequinhos. O sucesso garantido da sua festa.</p>
-                    <div class="flex justify-between items-center">
-                        <span class="text-2xl font-bold text-[#4a1d4a]">R$ 40,00</span>
-                        <button onclick="handleAddToCart(event, 'Cento Salgados', 80.00)" class="bg-[#4a1d4a] text-white px-6 py-3 rounded-xl font-bold hover:bg-[#9d5c9d] transition shadow-md">Adicionar</button>
-                    </div>
-                </div>
+            <div class="w-24 h-1 bg-[#9d5c9d] mx-auto rounded-full mb-12"></div>
+            
+            <!-- Filtros por Categoria -->
+            <div class="flex flex-wrap justify-center gap-4 mb-12">
+                <button onclick="filterProducts('todos', event)" class="category-tab active px-8 py-3 rounded-full font-bold transition-all border border-purple-100 hover:border-[#4a1d4a]">Todos</button>
+                <button onclick="filterProducts('doces', event)" class="category-tab px-8 py-3 rounded-full font-bold transition-all border border-purple-100 hover:border-[#4a1d4a]">Doces</button>
+                <button onclick="filterProducts('salgados', event)" class="category-tab px-8 py-3 rounded-full font-bold transition-all border border-purple-100 hover:border-[#4a1d4a]">Salgados</button>
+                <button onclick="filterProducts('biscoitos', event)" class="category-tab px-8 py-3 rounded-full font-bold transition-all border border-purple-100 hover:border-[#4a1d4a]">Biscoitos</button>
             </div>
         </div>
 
-         <!-- Produto 4 -->
-            <div class="bg-white rounded-[2rem] overflow-hidden shadow-sm border border-purple-50 card-product reveal" style="transition-delay: 300ms;">
-                <div class="h-72 overflow-hidden bg-gray-100 flex items-center justify-center">
-                    <img src="https://i.ibb.co/TMMwPwK7/images.jpg" alt="Salgadinhos" class="w-full h-full object-cover">
-                </div>
-                <div class="p-8">
-                    <span class="text-xs font-bold text-[#9d5c9d] uppercase tracking-widest mb-2 block">Para Festa</span>
-                    <h3 class="text-3xl mb-4 text-[#4a1d4a]">Cookies Premium</h3>
-                    <p class="text-gray-500 leading-relaxed mb-8"> Cookies com gotas de chocolate, muito sabor e semelhança a comida da vovó.</p>
-                    <div class="flex justify-between items-center">
-                        <span class="text-2xl font-bold text-[#4a1d4a]">R$ 4,50</span>
-                        <button onclick="handleAddToCart(event, 'Cookies Premium', 4.50)" class="bg-[#4a1d4a] text-white px-6 py-3 rounded-xl font-bold hover:bg-[#9d5c9d] transition shadow-md">Adicionar</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Produto 4 -->
-            <div class="bg-white rounded-[2rem] overflow-hidden shadow-sm border border-purple-50 card-product reveal" style="transition-delay: 300ms;">
-                <div class="h-72 overflow-hidden bg-gray-100 flex items-center justify-center">
-                    <img src="https://i.ibb.co/TMMwPwK7/images.jpg" alt="Salgadinhos" class="w-full h-full object-cover">
-                </div>
-                <div class="p-8">
-                    <span class="text-xs font-bold text-[#9d5c9d] uppercase tracking-widest mb-2 block">Para Festa</span>
-                    <h3 class="text-3xl mb-4 text-[#4a1d4a]">Cookies Premium</h3>
-                    <p class="text-gray-500 leading-relaxed mb-8"> Cookies com gotas de chocolate, muito sabor e semelhança a comida da vovó.</p>
-                    <div class="flex justify-between items-center">
-                        <span class="text-2xl font-bold text-[#4a1d4a]">R$ 4,50</span>
-                        <button onclick="handleAddToCart(event, 'Cookies Premium', 4.50)" class="bg-[#4a1d4a] text-white px-6 py-3 rounded-xl font-bold hover:bg-[#9d5c9d] transition shadow-md">Adicionar</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Produto 4 -->
-            <div class="bg-white rounded-[2rem] overflow-hidden shadow-sm border border-purple-50 card-product reveal" style="transition-delay: 300ms;">
-                <div class="h-72 overflow-hidden bg-gray-100 flex items-center justify-center">
-                    <img src="https://i.ibb.co/TMMwPwK7/images.jpg" alt="Salgadinhos" class="w-full h-full object-cover">
-                </div>
-                <div class="p-8">
-                    <span class="text-xs font-bold text-[#9d5c9d] uppercase tracking-widest mb-2 block">Para Festa</span>
-                    <h3 class="text-3xl mb-4 text-[#4a1d4a]">Cookies Premium</h3>
-                    <p class="text-gray-500 leading-relaxed mb-8"> Cookies com gotas de chocolate, muito sabor e semelhança a comida da vovó.</p>
-                    <div class="flex justify-between items-center">
-                        <span class="text-2xl font-bold text-[#4a1d4a]">R$ 4,50</span>
-                        <button onclick="handleAddToCart(event, 'Cookies Premium', 4.50)" class="bg-[#4a1d4a] text-white px-6 py-3 rounded-xl font-bold hover:bg-[#9d5c9d] transition shadow-md">Adicionar</button>
-                    </div>
-                </div>
-            </div>
+        <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            <!-- Produtos serão injetados via JavaScript -->
         </div>
     </main>
 
-    <!-- Sobre e Diretrizes -->
+     <!-- Sobre e Diretrizes -->
     <section id="diretrizes" class="py-32 bg-white">
         <div class="container mx-auto px-6">
             <div class="flex flex-col md:flex-row items-center gap-20">
@@ -370,8 +216,9 @@
         </div>
     </section>
 
+
     <!-- Footer -->
-    <footer class="bg-[#4a1d4a] text-white py-20">
+      <footer class="bg-[#4a1d4a] text-white py-20">
         <div class="container mx-auto px-6 text-center">
             <img src="https://i.ibb.co/8gfpMn1j/Chat-GPT-Image-3-de-abr-de-2026-17-58-38.png" alt="JK Logo" class="w-20 h-20 mx-auto rounded-full mb-8 grayscale hover:grayscale-0 transition-all duration-500 object-cover">
             <h2 class="text-3xl italic mb-4">JK Artesanais</h2>
@@ -391,141 +238,129 @@
     </footer>
 
     <script>
-        // --- 1. Lógica do Reveal (Animação ao Scroll) ---
-        function reveal() {
-            const reveals = document.querySelectorAll(".reveal");
-            for (let i = 0; i < reveals.length; i++) {
-                const windowHeight = window.innerHeight;
-                const elementTop = reveals[i].getBoundingClientRect().top;
-                const elementVisible = 150;
-                if (elementTop < windowHeight - elementVisible) {
-                    reveals[i].classList.add("active");
-                }
-            }
-        }
-        window.addEventListener("scroll", reveal);
-        window.addEventListener("load", reveal);
+        // --- 1. Dados dos Produtos ---
+        const products = [
+            { id: 1, name: 'Biscoito de Fubá', price: 15.00, category: 'biscoitos', image: 'https://i.ibb.co/p6Rzfkz1/biscoitodefuba3.jpg', desc: 'Amanteigado que derrete na boca.' },
+            { id: 2, name: 'Bolo de Pote', price: 12.00, category: 'doces', image: 'https://i.ibb.co/7mfRXPf/sabores-de-bolo-no-pote-mais-vendidos-1200x900.jpg', desc: 'Diversos sabores cremosos.' },
+            { id: 3, name: 'Cento Salgados', price: 80.00, category: 'salgados', image: 'https://i.ibb.co/fGpGK0Hx/Panfleteria-Joel-Salgados-torta-salgados-foto02-1.jpg', desc: 'Coxinha, quibe e risole.' },
+            { id: 4, name: 'Cookies Premium', price: 4.50, category: 'doces', image: 'https://i.ibb.co/TMMwPwK7/images.jpg', desc: 'Gotas reais de chocolate.' },
+            { id: 5, name: 'Empadão Goiano', price: 25.00, category: 'salgados', image: 'https://images.unsplash.com/photo-1544003385-a4968a521cad?auto=format&fit=crop&q=80&w=400', desc: 'Frango com pequi e guariroba.' },
+            { id: 6, name: 'Biscoito Queijo', price: 18.00, category: 'biscoitos', image: 'https://images.unsplash.com/photo-1619641211105-081084277717?auto=format&fit=crop&q=80&w=400', desc: 'Crocante e com muito queijo.' },
+            { id: 7, name: 'Trufa Artesanal', price: 5.00, category: 'doces', image: 'https://images.unsplash.com/photo-1549007994-cb92caebd54b?auto=format&fit=crop&q=80&w=400', desc: 'Chocolate belga recheado.' },
+            { id: 8, name: 'Kibe Especial', price: 6.00, category: 'salgados', image: 'https://images.unsplash.com/photo-1608897013039-887f3971592c?auto=format&fit=crop&q=80&w=400', desc: 'Recheado com catupiry.' },
+        ];
 
-        // --- 2. Lógica do Carrinho ---
+        // --- 2. Renderização Dinâmica com Filtragem ---
+        function filterProducts(cat, event = null) {
+            if (event && event.currentTarget) {
+                document.querySelectorAll('.category-tab').forEach(btn => btn.classList.remove('active'));
+                event.currentTarget.classList.add('active');
+            }
+
+            const grid = document.getElementById('product-grid');
+            grid.innerHTML = '';
+            
+            const filtered = cat === 'todos' ? products : products.filter(p => p.category === cat);
+
+            filtered.forEach(p => {
+                const card = `
+                    <div class="bg-white rounded-[1.5rem] overflow-hidden shadow-sm border border-purple-50 card-product reveal active">
+                        <div class="h-56 overflow-hidden">
+                            <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover">
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-[#4a1d4a] mb-1">${p.name}</h3>
+                            <p class="text-xs text-gray-400 mb-4">${p.desc}</p>
+                            <div class="flex justify-between items-center">
+                                <span class="font-bold text-[#4a1d4a]">R$ ${p.price.toFixed(2)}</span>
+                                <button onclick="handleAddToCart(event, '${p.name}', ${p.price})" class="bg-[#4a1d4a] text-white p-2 px-4 rounded-xl text-sm font-bold hover:bg-[#9d5c9d] transition active:scale-90">
+                                    Adicionar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                grid.innerHTML += card;
+            });
+        }
+
+        // --- 3. Lógica do Carrinho ---
         let cart = [];
-        const sidebar = document.getElementById('cart-sidebar');
-        const overlay = document.getElementById('cart-overlay');
-        const itemsList = document.getElementById('cart-items');
-        const totalDisp = document.getElementById('cart-total');
-        const depositDisp = document.getElementById('payment-deposit');
-        const countDisp = document.getElementById('cart-count');
-        const cartBtn = document.getElementById('cart-btn');
 
         function toggleCart() {
-            const isOpen = sidebar.classList.contains('open');
-            if (isOpen) {
-                sidebar.classList.remove('open');
-                overlay.style.opacity = '0';
-                setTimeout(() => overlay.classList.add('hidden'), 300);
-            } else {
-                overlay.classList.remove('hidden');
-                setTimeout(() => overlay.style.opacity = '1', 10);
-                sidebar.classList.add('open');
-            }
+            const sidebar = document.getElementById('cart-sidebar');
+            const overlay = document.getElementById('cart-overlay');
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('hidden');
+            setTimeout(() => overlay.classList.toggle('opacity-0'), 10);
         }
 
         function handleAddToCart(event, name, price) {
-            const btnRect = event.target.getBoundingClientRect();
-            const cartRect = cartBtn.getBoundingClientRect();
+            const btn = event.currentTarget.getBoundingClientRect();
+            const cartBtn = document.getElementById('cart-btn').getBoundingClientRect();
             
             const particle = document.createElement('div');
-            particle.className = 'flying-item shadow-xl';
-            particle.style.left = `${btnRect.left + btnRect.width/2}px`;
-            particle.style.top = `${btnRect.top + btnRect.height/2}px`;
+            particle.className = 'flying-item';
+            particle.style.left = `${btn.left}px`;
+            particle.style.top = `${btn.top}px`;
             document.body.appendChild(particle);
 
             setTimeout(() => {
-                particle.style.left = `${cartRect.left + cartRect.width/2}px`;
-                particle.style.top = `${cartRect.top + cartRect.height/2}px`;
-                particle.style.transform = 'scale(0.2)';
+                particle.style.left = `${cartBtn.left}px`;
+                particle.style.top = `${cartBtn.top}px`;
+                particle.style.transform = 'scale(0.1)';
                 particle.style.opacity = '0';
             }, 50);
 
             setTimeout(() => {
                 particle.remove();
                 addToCart(name, price);
-                cartBtn.style.transform = 'scale(1.2) rotate(15deg)';
-                setTimeout(() => cartBtn.style.transform = '', 200);
-            }, 750);
+            }, 700);
         }
 
         function addToCart(name, price) {
             const existing = cart.find(i => i.name === name);
-            if (existing) {
-                existing.qty++;
-            } else {
-                cart.push({ name, price, qty: 1 });
-            }
-            updateUI();
-        }
-
-        function updateQuantity(name, change) {
-            const item = cart.find(i => i.name === name);
-            if (item) {
-                item.qty += change;
-                if (item.qty <= 0) {
-                    removeFromCart(name);
-                } else {
-                    updateUI();
-                }
-            }
-        }
-
-        function removeFromCart(name) {
-            cart = cart.filter(i => i.name !== name);
+            if (existing) existing.qty++;
+            else cart.push({ name, price, qty: 1 });
             updateUI();
         }
 
         function updateUI() {
+            const itemsList = document.getElementById('cart-items');
             itemsList.innerHTML = '';
             let total = 0;
             let count = 0;
 
-            if (cart.length === 0) {
-                itemsList.innerHTML = `<div class="text-center py-20 text-gray-400 font-light italic">Ainda não escolheu nada delicioso?</div>`;
-            } else {
-                cart.forEach((item, index) => {
-                    total += item.price * item.qty;
-                    count += item.qty;
-                    const el = document.createElement('div');
-                    el.className = 'flex justify-between items-center p-4 bg-gray-50 rounded-2xl border border-purple-50 item-added';
-                    el.style.animationDelay = `${index * 0.1}s`;
-                    el.innerHTML = `
-                        <div class="flex-1">
-                            <p class="font-bold text-[#4a1d4a]">${item.name}</p>
-                            <p class="text-xs text-gray-500 font-medium tracking-wide italic">R$ ${item.price.toFixed(2)} / un</p>
+            cart.forEach(item => {
+                total += item.price * item.qty;
+                count += item.qty;
+                itemsList.innerHTML += `
+                    <div class="flex justify-between items-center bg-gray-50 p-4 rounded-xl border border-purple-50">
+                        <div>
+                            <p class="font-bold text-sm text-[#4a1d4a]">${item.name}</p>
+                            <p class="text-[10px] text-gray-500">R$ ${item.price.toFixed(2)}</p>
                         </div>
-                        <div class="flex items-center gap-3 mr-4">
-                            <button onclick="updateQuantity('${item.name}', -1)" class="w-8 h-8 flex items-center justify-center bg-white border border-purple-100 rounded-full text-[#4a1d4a] hover:bg-red-50 hover:text-red-500 transition-colors shadow-sm active:scale-90">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
-                                </svg>
-                            </button>
-                            <span class="font-bold text-[#4a1d4a] min-w-[1.2rem] text-center text-lg">${item.qty}</span>
-                            <button onclick="updateQuantity('${item.name}', 1)" class="w-8 h-8 flex items-center justify-center bg-white border border-purple-100 rounded-full text-[#4a1d4a] hover:bg-green-50 hover:text-green-600 transition-colors shadow-sm active:scale-90">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                                </svg>
-                            </button>
+                        <div class="flex items-center gap-2">
+                            <button onclick="changeQty('${item.name}', -1)" class="w-6 h-6 bg-white rounded-full shadow-sm text-xs">-</button>
+                            <span class="font-bold text-xs">${item.qty}</span>
+                            <button onclick="changeQty('${item.name}', 1)" class="w-6 h-6 bg-white rounded-full shadow-sm text-xs">+</button>
                         </div>
-                        <button onclick="removeFromCart('${item.name}')" class="text-gray-300 hover:text-red-500 p-2 transition-colors">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                            </svg>
-                        </button>
-                    `;
-                    itemsList.appendChild(el);
-                });
-            }
+                    </div>
+                `;
+            });
 
-            totalDisp.innerText = `R$ ${total.toFixed(2)}`;
-            depositDisp.innerText = `R$ ${(total * 0.6).toFixed(2)}`;
-            countDisp.innerText = count;
+            document.getElementById('cart-total').innerText = `R$ ${total.toFixed(2)}`;
+            document.getElementById('payment-deposit').innerText = `R$ ${(total * 0.6).toFixed(2)}`;
+            document.getElementById('cart-count').innerText = count;
+        }
+
+        function changeQty(name, delta) {
+            const item = cart.find(i => i.name === name);
+            if (item) {
+                item.qty += delta;
+                if (item.qty <= 0) cart = cart.filter(i => i.name !== name);
+                updateUI();
+            }
         }
 
         function sendWhatsAppOrder() {
@@ -535,13 +370,9 @@
             const hour = now.getHours();
             let greeting = "Olá Andreia, ";
             
-            if (hour >= 5 && hour < 12) {
-                greeting += "bom dia!";
-            } else if (hour >= 12 && hour < 18) {
-                greeting += "boa tarde!";
-            } else {
-                greeting += "boa noite!";
-            }
+            if (hour >= 5 && hour < 12) greeting += "bom dia!";
+            else if (hour >= 12 && hour < 18) greeting += "boa tarde!";
+            else greeting += "boa noite!";
 
             let msg = `${greeting}\n\n*Novo Pedido JK Doces e Salgados*\n\n`;
             let total = 0;
@@ -552,8 +383,25 @@
             msg += `\n*Total do Pedido: R$ ${total.toFixed(2)}*`;
             msg += `\n*Sinal Estimado (60%): R$ ${(total * 0.6).toFixed(2)}*`;
             msg += `\n\n_Aguardo o cálculo da taxa de entrega e informações sobre pagamento para finalizar._`;
+            
             window.open(`https://wa.me/5562998292962?text=${encodeURIComponent(msg)}`);
         }
+
+        // --- 4. Inicialização e Animações ---
+        function reveal() {
+            const reveals = document.querySelectorAll(".reveal");
+            reveals.forEach(r => {
+                const windowHeight = window.innerHeight;
+                const elementTop = r.getBoundingClientRect().top;
+                if (elementTop < windowHeight - 100) r.classList.add("active");
+            });
+        }
+
+        window.addEventListener("scroll", reveal);
+        window.onload = () => {
+            filterProducts('todos');
+            reveal();
+        };
     </script>
 </body>
 </html>
